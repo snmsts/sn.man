@@ -14,9 +14,13 @@
 
 (defparameter *which-man* nil)
 
-(defun man (entry &key output-format)
+(defun man (entry &key output-format section)
   (declare (ignore output-format))
   (when (or *which-man*
             (setf *which-man* (which "man")))
     (with-output-to-string (o)
-      (uiop:run-program (format nil "man ~S" entry) :output o))))
+      (uiop:run-program (format nil "man ~A ~S"
+                                (or section "")
+                                entry)
+                        :ignore-error-status t
+                        :output o))))
