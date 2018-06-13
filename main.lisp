@@ -18,9 +18,8 @@
   (declare (ignore output-format))
   (when (or *which-man*
             (setf *which-man* (which "man")))
-    (with-output-to-string (o)
-      (uiop:run-program (format nil "man ~A ~S"
-                                (or section "")
-                                entry)
-                        :ignore-error-status t
-                        :output o))))
+    (ignore-errors
+     (uiop:run-program (format nil "man ~A ~S"
+                               (or section "")
+                               entry)
+                       :output :string))))
